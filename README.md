@@ -49,8 +49,19 @@ We'll program the ESP32 and ESP8266 boards using Arduino IDE, so make sure you h
 2. Enter the following into the "Additional Board Manager URLs" field: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json Then click the Ok button.
 **Note:** If you have already have the ESP8266 boards URL, you can seperate the URLs with a comma as follows: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json, http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
-3. Open the Boards Manager. Go to **Tools> Board> Boards Manager...**
-4. 
+3. Open the Boards Manager. Go to **Tools> Board> Boards Manager...**<img width="858" alt="Schermafbeelding 2022-10-11 om 17 33 25" src="https://user-images.githubusercontent.com/70894669/195135474-cc7f4c07-49d6-4cf1-80ee-96655330b129.png">
+
+4. Search for **ESP32** and press install button for the "**ESP32 by Espressif Systems**".
+<img width="316" alt="Schermafbeelding 2022-10-11 om 17 34 28" src="https://user-images.githubusercontent.com/70894669/195135695-692d8878-b517-4ef0-b92f-05a5bd1ecd35.png">
+
+5. That's it. It should be installed after a few seconds.
+
+### Testing the installation
+
+1. Select your Board in **Tools > Board** menu (in my case it's the DOIT ESP32 DEVKIT V1)
+![IMG_0364](https://user-images.githubusercontent.com/70894669/195136952-f1ddf458-cae0-4bf2-baf7-6c032dc8db33.png)
+
+2. 
 
 ## Universal Telegram Bot Library
 To interact with the Telegram bot, we'll use the Universal Telegram Bot Library created by Brian Lough that provides an easy interface for the Telegram Bot API.
