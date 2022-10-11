@@ -266,3 +266,58 @@ void loop() {
   }
 }
 ```
+The code is compatible with ESP32 and ESP8266 NodeMCU boards (it's based on the Universal Arduino Telegram Bot library [example](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/blob/master/examples/ESP8266/FlashLED/FlashLED.ino)).The code will load the right libraries accordingly to the selected board.
+
+## How the Code Works
+This sections explain how the code works. Contiune reading or skip to the demonstration section.
+
+Start by importing the required libraries.
+```
+#ifdef ESP32
+  #include <WiFi.h>
+#else
+  #include <ESP8266WiFi.h>
+#endif
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>
+#include <ArduinoJson.h>
+```
+
+## Network Credentials
+Insert your network credentials in the following variables.
+```
+const char* ssid = "REPLACE_WITH_YOUR_SSID";
+const char* password = "REPLACE_WITH_YOUR_PASSWORD";
+```
+## Define Output
+Set the GPIO you want to control. In our case, we'll control GPIO 2 (built-in LED) and its state is ```LOW``` by default.
+```
+const int ledPin = 2;
+bool ledState = LOW;
+```
+>**Note**: If you're using an ESP8266, the built-in LED works with inverted logic. So, you should send a `LOW` signal to turn the LED on and a `HIGH` signal to turn it off.
+
+## Telegram Bot Token
+Insert your Telegram Bot Token you've got from BotFather on the `BOTtoken` variable.
+```
+#define BOTtoken "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"  // your Bot Token (Get from Botfather)
+```
+## Telegram User ID
+Insert your chat ID. The one you've got from the IDBot.
+```
+#define CHAT_ID "XXXXXXXXXX"
+```
+Create a new WiFi client with `WiFiClientSecure`.
+```
+WiFiClientSecure client;
+```
+Create a `bot` with the token and client defined earlier.
+```
+UniversalTelegramBot bot(BOTtoken, client);
+```
+The `botRequestDelay` and `lastTimeBotRan` are used to check for new Telegram messages every x number of seconds. In this case, the code whill check for new messages every second (1000 milliseconds). You can change the delay time in the `botRequestDelay` variable.
+```
+int botRequestDelay = 1000;
+unsigned long lastTimeBotRan;
+```
+## handleNewMessages()
