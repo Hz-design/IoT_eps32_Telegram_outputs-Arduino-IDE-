@@ -268,6 +268,10 @@ void loop() {
 ```
 The code is compatible with ESP32 and ESP8266 NodeMCU boards (it's based on the Universal Arduino Telegram Bot library [example](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/blob/master/examples/ESP8266/FlashLED/FlashLED.ino)).The code will load the right libraries accordingly to the selected board.
 
+>**Problem**: After uploading the code I got this message:
+<img width="1075" alt="Schermafbeelding 2022-10-11 om 21 57 32" src="https://user-images.githubusercontent.com/70894669/195186767-d75f5ec3-b883-45e8-a58a-c43fd39305f1.png">
+Ways to [solve](https://pythontechworld.com/issue/espressif/esptool/741) it. Press the **Boot** button while you're uploading.
+
 ## How the Code Works
 This sections explain how the code works. Contiune reading or skip to the demonstration section.
 
