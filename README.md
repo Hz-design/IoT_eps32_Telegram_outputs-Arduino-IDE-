@@ -25,6 +25,12 @@ The ESP32/ESP8266 will interact with the Telegram bot to receive and handle the 
 
 2. Open Telegram and follow the next steps to create a Telegram Bot. First, search for "botfather" and click the BotFather as shown below. Or open this link: t.me/botfather in your smartphone. 
 
-Probleem: BotFather reageert niet op je berichtjes.
-![IMG_0358](https://user-images.githubusercontent.com/70894669/195118891-36d0c92d-92e2-4cbc-b910-9d7faf74fdee.PNG width="150")
-![IMG_0359](https://user-images.githubusercontent.com/70894669/195118807-b6f02536-9c46-41d5-adb3-e2452d692096.PNG width="150")
+3. Click on "start" button.
+
+Problem: BotFather doesn't react on messages.
+<img src="https://user-images.githubusercontent.com/70894669/195118891-36d0c92d-92e2-4cbc-b910-9d7faf74fdee.PNG" width="150">
+When I frist started Botfather i Got this message, after that I deleted the application, installed it again and "deleted chat" after that I started a new chat with BotFather and it gave me a different respond which does work.
+<img src="https://user-images.githubusercontent.com/70894669/195118807-b6f02536-9c46-41d5-adb3-e2452d692096.PNG" width="150">
+
+4. Type /newbot and follow the instructions to create your bot. Give it a name and username.
+<img src="(https://user-images.githubusercontent.com/70894669/195122810-767a3d2a-6925-448e-a953-510b6505cb36.jpg" width="300">
