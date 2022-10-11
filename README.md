@@ -19,7 +19,7 @@ Telegram Messenger is a cloud-based instant messaging and voice over IP service.
 
 The ESP32/ESP8266 will interact with the Telegram bot to receive and handle the messages, and send responses. In this tutorial you’ll learn how to use Telegram to send messages to your bot to control the ESP outputs from anywhere (you just need Telegram and access to the internet).
 
-### Creating a Telegram Bot for IOs
+## Creating a Telegram Bot for IOs
 1. Go to App store, download and install Telegram.
 ![image](https://user-images.githubusercontent.com/70894669/195111740-63426a14-85b2-4582-b572-eeacee22e2b4.png)
 
@@ -34,3 +34,37 @@ When I frist started Botfather i Got this message, after that I deleted the appl
 
 4. Type /newbot and follow the instructions to create your bot. Give it a name and username.
 <img src="(https://user-images.githubusercontent.com/70894669/195122810-767a3d2a-6925-448e-a953-510b6505cb36.jpg" width="300">
+
+## Preparin Arduino IDE
+We'll program the ESP32 and ESP8266 boards using Arduino IDE, so make sure you have them installed in your Arduino IDE.
+
+[Installing the ESP32 Board in Arduino IDE (Windows, Mac OS X, Linux)](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/)
+
+[Installing ESP8266 Board in Arduino IDE (Windows, Mac OS X, Linux)](https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/)
+
+
+### Installing ESP32 Add-on in Arduino IDE
+1. In your Arduino IDE, got to **Arduino IDE> Preferences**<img width="724" alt="Schermafbeelding 2022-10-11 om 17 29 59" src="https://user-images.githubusercontent.com/70894669/195134710-8360271e-717c-44c6-a757-26df1c6bf013.png">
+
+2. Enter the following into the "Additional Board Manager URLs" field: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json Then click the Ok button.
+**Note:** If you have already have the ESP8266 boards URL, you can seperate the URLs with a comma as follows: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json, http://arduino.esp8266.com/stable/package_esp8266com_index.json
+
+3. Open the Boards Manager. Go to **Tools> Board> Boards Manager...**
+4. 
+
+## Universal Telegram Bot Library
+To interact with the Telegram bot, we'll use the Universal Telegram Bot Library created by Brian Lough that provides an easy interface for the Telegram Bot API.
+
+Follow the next steps to install the latest release of the library.
+
+1. [Click here to download the Universal Arduino Telegram Bot library](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip)
+2. Go to **Sketch > Include Library > Add.ZIP library..**
+3. Add the library you've just downloaded.
+
+And that's it. The library is installed.
+
+Important: Don't install the library through the Arduino Library manager because it might install a deprecated version.
+
+For all the details about the library, take a look at the Universal Arduino Telegram Bot library [Github](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot) page.
+
+## ArduinoJson Library.
