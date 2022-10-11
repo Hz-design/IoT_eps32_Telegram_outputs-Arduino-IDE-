@@ -321,3 +321,180 @@ int botRequestDelay = 1000;
 unsigned long lastTimeBotRan;
 ```
 ## handleNewMessages()
+The `handleNewMessages()` function handles what happens when new messages arrive.
+```
+void handleNewMessages(int numNewMessages) {
+  Serial.printIn("handleMessages");
+  Serial.printIn(String(numNewMessages));
+```
+It checks the available messages:
+```
+for (int i=0; i<numNewMessages; i++) {
+```
+Get the chad ID for that particular message and store it in the `chat_id` variable. The chat ID allows us to identify who sent the message.
+```
+String chat_id = String(bot.messages[i].chat_id);
+```
+If the `chat_id` is different from your chat ID (`CHAT_ID`), it means that someone (that is not you) has sent a message to your bot. If that's the case, ignore the message and wait for the next message.
+```
+if (chat_id != CHAT_ID) {
+  bot.sendMessage(chat_id, "Unauthorized user", "");
+  continue;
+}
+```
+Otherwise, it means that the message was sent from a valid user, so we'll save it in the `text` variable and check its content.
+```
+String text = bot.messages[i].text;
+Serial.printIn(text);
+```
+The `from_name` variables saves the name of the sender.
+```
+String from_name = bot.messages[i].from_name;
+```
+If it receives the /start message, we'll send the valid commands to control the ESP32/ESP8266. This is useful if you happen to forget what are the commands to control your board. 
+```
+if (text == "/start"){
+  String welcome= "Welcome, " + from_name + ".\n";
+  Welcome += "Use the following commands to control your outputs. \n\n";
+  welcome += "/led_on to turn GPIO ON \n";
+  welcome += "/led_off to turn GPIO OFF \n";
+  welcome += "/state to request current GPIO state \n";
+  bot.sendMessage(chat_id, welcome, "");
+}
+```
+Sending the message to the bot is very simply. You just need to use the `sendMessage()` method on the `bot` object and pass as arguments the recipient's chat ID, the message, and the parse mode.
+```
+bool sendMessage(String chat_id, String text, String parse_mode = "")
+```
+In our particular example, we’ll send the message to the ID stored on the chat_id variable (that corresponds to the person who’ve sent the message) and send the message saved on the welcome variable.
+```
+bot.sendMessage(chat_id, welcome, "");
+```
+If it receives the /led_on message, turn the LED on and send a message confirming we’ve received the message. Also, update the ledState variable with the new state.
+
+```
+if (text == "/led_on") {
+  bot.sendMessage(chat_id, "LED state set to ON", "");
+  ledState = HIGH;
+  digitalWrite(ledPin, ledState);
+}
+```
+Do something similar for the /led_off message.
+```
+if (text == "/led_off") {
+  bot.sendMessage(chat_id, "LED state set to OFF", "");
+  ledState = LOW;
+  digitalWrite(ledPin, ledState);
+}
+```
+>***Note***: if you're using and ESP8266, the built-in LED work with inverted logic. So, you should send a `LOW` signal to turn the LED on and a `HIGH` signal to turn it off.
+
+Finally, if the received message is /state, check the current GPIO state and send a message accordingly.
+```
+if (text == "/state") {
+  if (digitalRead(ledPin)){
+    bot.sendMessage(chat_id, "LED is ON", "");
+  }
+  else{
+    bot.sendMessage(chat_id, "LED is OFF", "");
+  }
+}
+```
+## setup()
+In the `setup()`, intialize the Serial Monitor.
+```
+Serial.begin(115200);
+```
+If you’re using the ESP8266, you need to use the following line:
+
+```
+#ifdef ESP8266
+  client.setInsecure();
+#endif
+```
+In the library examples for the ESP8266 they say: “This is the simplest way of getting this working. If you are passing sensitive information, or controlling something important, please either use certStore or at least client.setFingerPrint“.
+
+Set the LED as an output and set it to LOW when the ESP first starts:
+
+```
+pinMode(ledPin, OUTPUT);
+digitalWrite(ledPin, ledState);
+```
+### Init Wi-Fi
+Initialize Wi-Fi and connect the ESP to your local network with the SSID and password defined earlier.
+```
+WiFi.mode(WIFI_STA);
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED) {
+  delay(1000);
+  Serial.println("Connecting to WiFi..");
+}
+```
+## loop()
+In the `loop()`, check for new messages every second.
+```
+void loop() {
+  if (millis() > lastTimeBotRan + botRequestDelay)  {
+    int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+
+    while(numNewMessages) {
+      Serial.println("got response");
+      handleNewMessages(numNewMessages);
+      numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+    }
+    lastTimeBotRan = millis();
+  }
+}
+```
+When a new message arrives, call the `handleNewMessages` function.
+```
+while(numNewMessages) {
+  Serial.println("got response");
+  handleNewMessages(numNewMessages);
+  numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+}
+```
+That's pretty much how the code works.
+
+## Demonstration
+Upload the code to your ESP32 or ESP8266 board. Don’t forget to go to **Tools > Board** and select the board you’re using. Go to **Tools > Port** and select the COM port your board is connected to.
+
+After uploading the code, press the ESP32/ESP8266 on-board EN/RST button so that it starts running the code. Then, you can open the Serial Monitor to check what’s happening in the background.
+
+Go to your Telegram account and open a conversation with your bot. Send the following commands and see the bot responding:
+
+• **/start** shows the welcome message with the valid commands.
+• **/led_on** turns the LED on.
+• **/led_off** turns the LED off.
+• **/state** requests the current LED state.
+
+image
+
+The on-board LED should turn on and turn off accordingly (the ESP8266 on-board LED works in reverse, it’s off when you send /led_on and on when you send /led_off).
+
+image
+
+At the same time, on the Serial Monitor you should see that the ESP is receiving the messages.
+
+image
+
+If you try to interact with your bot from another account, you’ll get the the “Unauthorized user” message.
+
+image
+
+## Wrapping Up
+In this tutorial you’ve learned how to create a Telegram Bot to interact with the ESP32 or ESP8266. With this bot, you can use your Telegram account to send messages to the ESP and control its outputs. The ESP can also interact with the bot to send responses.
+
+We’ve shown you a simple example on how to control an output. The idea is to modify the project to add more commands to execute other tasks. For example, you can [request sensor readings](https://randomnerdtutorials.com/telegram-request-esp32-esp8266-nodemcu-sensor-readings/) or send a message when motion is detected.
+
+The great thing about using Telegram to control your ESP boards, is that as long as you have an internet connection (and your boards too), you can control and monitor them from anywhere in the world.
+
+We hope you’ve found this project interesting. Learn more about the ESP32 and ESP8266 with our resources:
+
+- [Learn ESP32 with Arduino IDE (eBook + Video Course)](https://randomnerdtutorials.com/learn-esp32-with-arduino-ide/)
+- [Home Automation using ESP8266](https://randomnerdtutorials.com/home-automation-using-esp8266/)
+- [More ESP32 projects and tutorials…](https://randomnerdtutorials.com/projects-esp32/)
+- [More ESP8266 projects and tutorials…](https://randomnerdtutorials.com/projects-esp32/)
+
+Thanks for reading.
+
