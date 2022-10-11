@@ -270,7 +270,11 @@ The code is compatible with ESP32 and ESP8266 NodeMCU boards (it's based on the 
 
 >**Problem**: After uploading the code I got this message:
 <img width="1075" alt="Schermafbeelding 2022-10-11 om 21 57 32" src="https://user-images.githubusercontent.com/70894669/195186767-d75f5ec3-b883-45e8-a58a-c43fd39305f1.png">
-Ways to [solve](https://pythontechworld.com/issue/espressif/esptool/741) it. Press the **Boot** button while you're uploading.
+Ways to [solve](https://pythontechworld.com/issue/espressif/esptool/741) it. 
+
+Press the **Boot** button while you're uploading, and this is the desired result.
+<img width="1072" alt="Schermafbeelding 2022-10-11 om 22 01 20" src="https://user-images.githubusercontent.com/70894669/195187364-cd9f69d9-6469-4603-a164-a475fac61d9f.png">
+
 
 ## How the Code Works
 This sections explain how the code works. Contiune reading or skip to the demonstration section.
@@ -472,19 +476,21 @@ Go to your Telegram account and open a conversation with your bot. Send the foll
 • **/led_off** turns the LED off.
 • **/state** requests the current LED state.
 
-image
+![IMG_0371](https://user-images.githubusercontent.com/70894669/195189542-bbbc3fa4-e763-4dd6-bd46-8a2ae34817c6.PNG)
+
 
 The on-board LED should turn on and turn off accordingly (the ESP8266 on-board LED works in reverse, it’s off when you send /led_on and on when you send /led_off).
 
-image
+![IMG_0373](https://user-images.githubusercontent.com/70894669/195190065-ef8293bf-b15f-49eb-98f1-c14012c665e3.png)
+
 
 At the same time, on the Serial Monitor you should see that the ESP is receiving the messages.
 
-image
+<img width="1069" alt="Schermafbeelding 2022-10-11 om 22 18 06" src="https://user-images.githubusercontent.com/70894669/195190123-ae51d311-f380-429c-886d-d6b28ff3888f.png">
+
 
 If you try to interact with your bot from another account, you’ll get the the “Unauthorized user” message.
 
-image
 
 ## Wrapping Up
 In this tutorial you’ve learned how to create a Telegram Bot to interact with the ESP32 or ESP8266. With this bot, you can use your Telegram account to send messages to the ESP and control its outputs. The ESP can also interact with the bot to send responses.
